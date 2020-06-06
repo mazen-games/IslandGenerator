@@ -16,7 +16,7 @@
 * limitations under the License.
 */
 
-#include "IslandRivers.h"
+#include "Rivers/IslandRivers.h"
 
 UIslandRivers::UIslandRivers()
 {
@@ -24,7 +24,7 @@ UIslandRivers::UIslandRivers()
 	MaxSpringElevation = 0.9f;
 }
 
-bool UIslandRivers::IsTriangleWater(FTriangleIndex t, UTriangleDualMesh* Mesh, const TArray<bool>& r_water) const
+bool UIslandRivers::IsTriangleWater(FTriangleIndex t, UTriangleDualMesh *Mesh, const TArray<bool> &r_water) const
 {
 	TArray<FPointIndex> regions = Mesh->t_circulate_r(t);
 	for (FPointIndex r : regions)
@@ -37,7 +37,7 @@ bool UIslandRivers::IsTriangleWater(FTriangleIndex t, UTriangleDualMesh* Mesh, c
 	return false;
 }
 
-TArray<FTriangleIndex> UIslandRivers::FindSpringTriangles_Implementation(UTriangleDualMesh* Mesh, const TArray<bool>& r_water, const TArray<float>& t_elevation, const TArray<FSideIndex>& t_downslope_s) const
+TArray<FTriangleIndex> UIslandRivers::FindSpringTriangles_Implementation(UTriangleDualMesh *Mesh, const TArray<bool> &r_water, const TArray<float> &t_elevation, const TArray<FSideIndex> &t_downslope_s) const
 {
 	TSet<FTriangleIndex> spring_t;
 	if (Mesh != NULL)
@@ -47,8 +47,8 @@ TArray<FTriangleIndex> UIslandRivers::FindSpringTriangles_Implementation(UTriang
 		for (FTriangleIndex t = 0; t < Mesh->NumSolidTriangles; t += 2)
 		{
 			if (t_elevation[t] >= MinSpringElevation &&
-				t_elevation[t] <= MaxSpringElevation &&
-				!IsTriangleWater(t, Mesh, r_water))
+					t_elevation[t] <= MaxSpringElevation &&
+					!IsTriangleWater(t, Mesh, r_water))
 			{
 				spring_t.Add(t);
 			}
@@ -61,13 +61,13 @@ TArray<FTriangleIndex> UIslandRivers::FindSpringTriangles_Implementation(UTriang
 	return spring_t.Array();
 }
 
-TArray<URiver*> UIslandRivers::CreateRiver(FTriangleIndex RiverTriangle, TArray<int32> &s_flow, TMap<FTriangleIndex, URiver*> RiverMap, UTriangleDualMesh* Mesh, const TArray<FSideIndex>& t_downslope_s, FRandomStream& RiverRng) const
+TArray<URiver *> UIslandRivers::CreateRiver(FTriangleIndex RiverTriangle, TArray<int32> &s_flow, TMap<FTriangleIndex, URiver *> RiverMap, UTriangleDualMesh *Mesh, const TArray<FSideIndex> &t_downslope_s, FRandomStream &RiverRng) const
 {
 	TSet<FTriangleIndex> processedSlopes;
-	TArray<URiver*> createdRivers;
-	URiver* currentRiver = NULL;
+	TArray<URiver *> createdRivers;
+	URiver *currentRiver = NULL;
 	FSideIndex lastS = FSideIndex();
-	while(true)
+	while (true)
 	{
 		if (processedSlopes.Contains(RiverTriangle))
 		{
@@ -146,7 +146,7 @@ TArray<URiver*> UIslandRivers::CreateRiver(FTriangleIndex RiverTriangle, TArray<
 	}
 
 	// One final pass; make sure none of the rivers are null
-	TArray<URiver*> riverArray;
+	TArray<URiver *> riverArray;
 	for (int i = 0; i < createdRivers.Num(); i++)
 	{
 		if (createdRivers[i] == NULL)
@@ -161,13 +161,13 @@ TArray<URiver*> UIslandRivers::CreateRiver(FTriangleIndex RiverTriangle, TArray<
 	return riverArray;
 }
 
-void UIslandRivers::AssignSideFlow_Implementation(TArray<int32>& s_flow, TArray<URiver*>& Rivers, UTriangleDualMesh* Mesh, const TArray<FSideIndex>& t_downslope_s, const TArray<FTriangleIndex>& river_t, FRandomStream& RiverRng) const
+void UIslandRivers::AssignSideFlow_Implementation(TArray<int32> &s_flow, TArray<URiver *> &Rivers, UTriangleDualMesh *Mesh, const TArray<FSideIndex> &t_downslope_s, const TArray<FTriangleIndex> &river_t, FRandomStream &RiverRng) const
 {
 	if (Mesh)
 	{
 		s_flow.Empty(Mesh->NumSides);
 		s_flow.SetNumZeroed(Mesh->NumSides);
-		TMap<FTriangleIndex, URiver*> riverTriangles;
+		TMap<FTriangleIndex, URiver *> riverTriangles;
 		for (int i = 0; i < river_t.Num(); i++)
 		{
 			Rivers.Append(CreateRiver(river_t[i], s_flow, riverTriangles, Mesh, t_downslope_s, RiverRng));
@@ -179,12 +179,12 @@ void UIslandRivers::AssignSideFlow_Implementation(TArray<int32>& s_flow, TArray<
 	}
 }
 
-TArray<FTriangleIndex> UIslandRivers::find_spring_t(UTriangleDualMesh* Mesh, const TArray<bool>& r_water, const TArray<float>& t_elevation, const TArray<FSideIndex>& t_downslope_s) const
+TArray<FTriangleIndex> UIslandRivers::find_spring_t(UTriangleDualMesh *Mesh, const TArray<bool> &r_water, const TArray<float> &t_elevation, const TArray<FSideIndex> &t_downslope_s) const
 {
 	return FindSpringTriangles(Mesh, r_water, t_elevation, t_downslope_s);
 }
 
-void UIslandRivers::assign_s_flow(TArray<int32>& s_flow, TArray<URiver*>& Rivers, UTriangleDualMesh* Mesh, const TArray<FSideIndex>& t_downslope_s, const TArray<FTriangleIndex>& river_t, FRandomStream& RiverRng) const
+void UIslandRivers::assign_s_flow(TArray<int32> &s_flow, TArray<URiver *> &Rivers, UTriangleDualMesh *Mesh, const TArray<FSideIndex> &t_downslope_s, const TArray<FTriangleIndex> &river_t, FRandomStream &RiverRng) const
 {
 	AssignSideFlow(s_flow, Rivers, Mesh, t_downslope_s, river_t, RiverRng);
 }

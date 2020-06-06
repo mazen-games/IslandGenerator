@@ -16,7 +16,7 @@
 * limitations under the License.
 */
 
-#include "IslandSquareMeshBuilder.h"
+#include "Mesh/IslandSquareMeshBuilder.h"
 #include "DualMeshBuilder.h"
 
 UIslandSquareMeshBuilder::UIslandSquareMeshBuilder()
@@ -24,7 +24,7 @@ UIslandSquareMeshBuilder::UIslandSquareMeshBuilder()
 	NumberOfPoints = 1000;
 }
 
-void UIslandSquareMeshBuilder::AddPoints_Implementation(UDualMeshBuilder* Builder, FRandomStream& Rng) const
+void UIslandSquareMeshBuilder::AddPoints_Implementation(UDualMeshBuilder *Builder, FRandomStream &Rng) const
 {
 	int32 gridSize = FMath::CeilToInt(FMath::Sqrt(NumberOfPoints));
 	for (int32 x = 0; x < gridSize; x++)

@@ -113,12 +113,12 @@ void AIslandMap::GenerateIsland_Implementation()
 	FDateTime startTime = FDateTime::UtcNow();
 	LastRegenerationTime = startTime;
 #endif
-	
+
 	if (bDetermineRandomSeedAtRuntime)
 	{
-		FDateTime startTime = FDateTime::UtcNow();
-		int multiplier = startTime.GetSecond() % 2 == 0 ? 1 : -1;
-		Seed = ((startTime.GetMillisecond() * startTime.GetMinute()) + (startTime.GetHour() * startTime.GetDayOfYear())) * multiplier;
+		FDateTime seedTime = FDateTime::UtcNow();
+		int multiplier = seedTime.GetSecond() % 2 == 0 ? 1 : -1;
+		Seed = ((seedTime.GetMillisecond() * seedTime.GetMinute()) + (seedTime.GetHour() * seedTime.GetDayOfYear())) * multiplier;
 	}
 
 	Rng = FRandomStream();
@@ -148,7 +148,7 @@ void AIslandMap::GenerateIsland_Implementation()
 #endif
 
 	// Generate map points
-	Mesh = PointGenerator->GenerateDualMesh(Rng); 
+	Mesh = PointGenerator->GenerateDualMesh(Rng);
 	OnIslandPointGenerationComplete.Broadcast();
 
 #if !UE_BUILD_SHIPPING
@@ -270,7 +270,7 @@ void AIslandMap::GenerateIsland_Implementation()
 	OnIslandGenerationComplete.Broadcast();
 }
 
-TArray<FIslandPolygon>& AIslandMap::GetVoronoiPolygons()
+TArray<FIslandPolygon> &AIslandMap::GetVoronoiPolygons()
 {
 	if (VoronoiPolygons.Num() == 0)
 	{
@@ -294,7 +294,7 @@ TArray<FIslandPolygon>& AIslandMap::GetVoronoiPolygons()
 	return VoronoiPolygons;
 }
 
-TArray<bool>& AIslandMap::GetWaterRegions()
+TArray<bool> &AIslandMap::GetWaterRegions()
 {
 	return r_water;
 }
@@ -311,7 +311,7 @@ bool AIslandMap::IsPointWater(FPointIndex Region) const
 	}
 }
 
-TArray<bool>& AIslandMap::GetOceanRegions()
+TArray<bool> &AIslandMap::GetOceanRegions()
 {
 	return r_ocean;
 }
@@ -328,7 +328,7 @@ bool AIslandMap::IsPointOcean(FPointIndex Region) const
 	}
 }
 
-TArray<bool>& AIslandMap::GetCoastalRegions()
+TArray<bool> &AIslandMap::GetCoastalRegions()
 {
 	return r_coast;
 }
@@ -345,7 +345,7 @@ bool AIslandMap::IsPointCoast(FPointIndex Region) const
 	}
 }
 
-TArray<float>& AIslandMap::GetRegionElevations()
+TArray<float> &AIslandMap::GetRegionElevations()
 {
 	return r_elevation;
 }
@@ -362,7 +362,7 @@ float AIslandMap::GetPointElevation(FPointIndex Region) const
 	}
 }
 
-TArray<int32>& AIslandMap::GetRegionWaterDistance()
+TArray<int32> &AIslandMap::GetRegionWaterDistance()
 {
 	return r_waterdistance;
 }
@@ -379,7 +379,7 @@ int32 AIslandMap::GetPointWaterDistance(FPointIndex Region) const
 	}
 }
 
-TArray<float>& AIslandMap::GetRegionMoisture()
+TArray<float> &AIslandMap::GetRegionMoisture()
 {
 	return r_moisture;
 }
@@ -396,7 +396,7 @@ float AIslandMap::GetPointMoisture(FPointIndex Region) const
 	}
 }
 
-TArray<float>& AIslandMap::GetRegionTemperature()
+TArray<float> &AIslandMap::GetRegionTemperature()
 {
 	return r_temperature;
 }
@@ -413,7 +413,7 @@ float AIslandMap::GetPointTemperature(FPointIndex Region) const
 	}
 }
 
-TArray<FBiomeData>& AIslandMap::GetRegionBiomes()
+TArray<FBiomeData> &AIslandMap::GetRegionBiomes()
 {
 	return r_biome;
 }
@@ -430,7 +430,7 @@ FBiomeData AIslandMap::GetPointBiome(FPointIndex Region) const
 	}
 }
 
-TArray<int32>& AIslandMap::GetTriangleCoastDistances()
+TArray<int32> &AIslandMap::GetTriangleCoastDistances()
 {
 	return t_coastdistance;
 }
@@ -447,7 +447,7 @@ int32 AIslandMap::GetTriangleCoastDistance(FTriangleIndex Triangle) const
 	}
 }
 
-TArray<float>& AIslandMap::GetTriangleElevations()
+TArray<float> &AIslandMap::GetTriangleElevations()
 {
 	return t_elevation;
 }
@@ -464,17 +464,17 @@ float AIslandMap::GetTriangleElevation(FTriangleIndex Triangle) const
 	}
 }
 
-TArray<FSideIndex>& AIslandMap::GetTriangleDownslopes()
+TArray<FSideIndex> &AIslandMap::GetTriangleDownslopes()
 {
 	return t_downslope_s;
 }
 
-TArray<int32>& AIslandMap::GetSideFlow()
+TArray<int32> &AIslandMap::GetSideFlow()
 {
 	return s_flow;
 }
 
-TArray<FTriangleIndex>& AIslandMap::GetSpringTriangles()
+TArray<FTriangleIndex> &AIslandMap::GetSpringTriangles()
 {
 	return spring_t;
 }
@@ -484,7 +484,7 @@ bool AIslandMap::IsTriangleSpring(FTriangleIndex Triangle) const
 	return spring_t.Contains(Triangle);
 }
 
-TArray<FTriangleIndex>& AIslandMap::GetRiverTriangles()
+TArray<FTriangleIndex> &AIslandMap::GetRiverTriangles()
 {
 	return river_t;
 }

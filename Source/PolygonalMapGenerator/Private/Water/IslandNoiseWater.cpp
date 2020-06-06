@@ -16,9 +16,9 @@
 * limitations under the License.
 */
 
-#include "IslandNoiseWater.h"
+#include "Water/IslandNoiseWater.h"
 
-bool UIslandNoiseWater::IsPointLand_Implementation(FPointIndex Point, UTriangleDualMesh* Mesh, const FVector2D& HalfMeshSize, const FVector2D& Offset, const FIslandShape& Shape) const
+bool UIslandNoiseWater::IsPointLand_Implementation(FPointIndex Point, UTriangleDualMesh *Mesh, const FVector2D &HalfMeshSize, const FVector2D &Offset, const FIslandShape &Shape) const
 {
 	FVector2D nVector = Mesh->r_pos(Point);
 	nVector.X /= HalfMeshSize.X;

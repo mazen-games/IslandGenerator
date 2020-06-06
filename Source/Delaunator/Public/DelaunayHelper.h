@@ -8,9 +8,8 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "GenericPlatform.h"
+#include "GenericPlatform/GenericPlatform.h"
 #include "DelaunayHelper.generated.h"
-
 
 //#define KCPPPWPLog( Level, Text ) UE_LOG( LogKeshUE4FundamentalTypeWrapperPlugin, Level, TEXT( Text ) )
 //#define KCPPPWPLogF( Level, Format, ... ) UE_LOG( LogKeshUE4FundamentalTypeWrapperPlugin, Level, TEXT( Format ), __VA_ARGS__ )
@@ -20,7 +19,7 @@
 constexpr SIZE_T INVALID_DELAUNAY_INDEX = (SIZE_T)-1;
 
 #define PACKED
-#pragma pack(push,1)
+#pragma pack(push, 1)
 USTRUCT(BlueprintType)
 struct DELAUNATOR_API FSideIndex
 {
@@ -31,65 +30,64 @@ public:
 	operator SIZE_T() const { return Value; }
 
 	FSideIndex() { this->Value = INVALID_DELAUNAY_INDEX; }
-	FSideIndex(const SIZE_T& Value) { this->Value = Value; }
+	FSideIndex(const SIZE_T &Value) { this->Value = Value; }
 
-	FSideIndex& operator=(const FSideIndex& Other)
+	FSideIndex &operator=(const FSideIndex &Other)
 	{
 		Value = Other.Value;
 		return *this;
 	}
 
-	FSideIndex& operator++()       // Prefix increment operator.
+	FSideIndex &operator++() // Prefix increment operator.
 	{
 		++Value;
 		return *this;
 	}
-	FSideIndex operator++(int)     // Postfix increment operator.
+	FSideIndex operator++(int) // Postfix increment operator.
 	{
 		FSideIndex temp = *this;
 		++*this;
 		return temp;
 	}
 
-	FSideIndex& operator--()       // Prefix decrement operator.
+	FSideIndex &operator--() // Prefix decrement operator.
 	{
 		--Value;
 		return *this;
 	}
-	FSideIndex operator--(int)     // Postfix decrement operator.
+	FSideIndex operator--(int) // Postfix decrement operator.
 	{
 		FSideIndex temp = *this;
 		--*this;
 		return temp;
 	}
 
-	FSideIndex& operator+=(const int& RHS)
+	FSideIndex &operator+=(const int &RHS)
 	{
 		this->Value += RHS;
 		return *this;
 	}
-	FSideIndex& operator+=(const FSideIndex& RHS)
+	FSideIndex &operator+=(const FSideIndex &RHS)
 	{
 		this->Value += RHS.Value;
 		return *this;
 	}
-	FSideIndex& operator-=(const int& RHS)
+	FSideIndex &operator-=(const int &RHS)
 	{
 		this->Value -= RHS;
 		return *this;
 	}
-	FSideIndex& operator-=(const FSideIndex& RHS)
+	FSideIndex &operator-=(const FSideIndex &RHS)
 	{
 		this->Value -= RHS.Value;
 		return *this;
 	}
 
 	bool IsValid() const { return Value != INVALID_DELAUNAY_INDEX; }
-
 };
 #pragma pack(pop)
 
-#pragma pack(push,1)
+#pragma pack(push, 1)
 USTRUCT(BlueprintType)
 struct DELAUNATOR_API FTriangleIndex
 {
@@ -100,145 +98,142 @@ public:
 	operator SIZE_T() const { return Value; }
 
 	FTriangleIndex() { this->Value = INVALID_DELAUNAY_INDEX; }
-	FTriangleIndex(const SIZE_T& Value) { this->Value = Value; }
+	FTriangleIndex(const SIZE_T &Value) { this->Value = Value; }
 
-	FTriangleIndex& operator=(const FTriangleIndex& Other)
+	FTriangleIndex &operator=(const FTriangleIndex &Other)
 	{
 		Value = Other.Value;
 		return *this;
 	}
 
-	FTriangleIndex& operator++()       // Prefix increment operator.
+	FTriangleIndex &operator++() // Prefix increment operator.
 	{
 		++Value;
 		return *this;
 	}
-	FTriangleIndex operator++(int)     // Postfix increment operator.
+	FTriangleIndex operator++(int) // Postfix increment operator.
 	{
 		FTriangleIndex temp = *this;
 		++*this;
 		return temp;
 	}
 
-	FTriangleIndex& operator--()       // Prefix decrement operator.
+	FTriangleIndex &operator--() // Prefix decrement operator.
 	{
 		--Value;
 		return *this;
 	}
-	FTriangleIndex operator--(int)     // Postfix decrement operator.
+	FTriangleIndex operator--(int) // Postfix decrement operator.
 	{
 		FTriangleIndex temp = *this;
 		--*this;
 		return temp;
 	}
 
-	FTriangleIndex& operator+=(const int& RHS)
+	FTriangleIndex &operator+=(const int &RHS)
 	{
 		this->Value += RHS;
 		return *this;
 	}
-	FTriangleIndex& operator+=(const FTriangleIndex& RHS)
+	FTriangleIndex &operator+=(const FTriangleIndex &RHS)
 	{
 		this->Value += RHS.Value;
 		return *this;
 	}
-	FTriangleIndex& operator-=(const int& RHS)
+	FTriangleIndex &operator-=(const int &RHS)
 	{
 		this->Value -= RHS;
 		return *this;
 	}
-	FTriangleIndex& operator-=(const FTriangleIndex& RHS)
+	FTriangleIndex &operator-=(const FTriangleIndex &RHS)
 	{
 		this->Value -= RHS.Value;
 		return *this;
 	}
 
 	bool IsValid() const { return Value != INVALID_DELAUNAY_INDEX; }
-
 };
 #pragma pack(pop)
 
-#pragma pack(push,1)
+#pragma pack(push, 1)
 USTRUCT(BlueprintType)
 struct DELAUNATOR_API FPointIndex
 {
 	GENERATED_BODY()
 
 private:
-
 public:
 	SIZE_T Value;
 	operator SIZE_T() const { return Value; }
 
 	FPointIndex() { this->Value = INVALID_DELAUNAY_INDEX; }
-	FPointIndex(const SIZE_T& Value) { this->Value = Value; }
+	FPointIndex(const SIZE_T &Value) { this->Value = Value; }
 
-	FPointIndex& operator=(const FPointIndex& Other)
+	FPointIndex &operator=(const FPointIndex &Other)
 	{
 		Value = Other.Value;
 		return *this;
 	}
 
-	FPointIndex& operator++()       // Prefix increment operator.
+	FPointIndex &operator++() // Prefix increment operator.
 	{
 		++Value;
 		return *this;
 	}
-	FPointIndex operator++(int)     // Postfix increment operator.
+	FPointIndex operator++(int) // Postfix increment operator.
 	{
 		FPointIndex temp = *this;
 		++*this;
 		return temp;
 	}
 
-	FPointIndex& operator--()       // Prefix decrement operator.
+	FPointIndex &operator--() // Prefix decrement operator.
 	{
 		--Value;
 		return *this;
 	}
-	FPointIndex operator--(int)     // Postfix decrement operator.
+	FPointIndex operator--(int) // Postfix decrement operator.
 	{
 		FPointIndex temp = *this;
 		--*this;
 		return temp;
 	}
 
-	FPointIndex& operator+=(const int& RHS)
+	FPointIndex &operator+=(const int &RHS)
 	{
 		this->Value += RHS;
 		return *this;
 	}
-	FPointIndex& operator+=(const FPointIndex& RHS)
+	FPointIndex &operator+=(const FPointIndex &RHS)
 	{
 		this->Value += RHS.Value;
 		return *this;
 	}
-	FPointIndex& operator-=(const int& RHS)
+	FPointIndex &operator-=(const int &RHS)
 	{
 		this->Value -= RHS;
 		return *this;
 	}
-	FPointIndex& operator-=(const FPointIndex& RHS)
+	FPointIndex &operator-=(const FPointIndex &RHS)
 	{
 		this->Value -= RHS.Value;
 		return *this;
 	}
 
 	bool IsValid() const { return Value != INVALID_DELAUNAY_INDEX; }
-
 };
 #pragma pack(pop)
 #undef PACKED
 
-FORCEINLINE uint32 GetTypeHash(const FSideIndex& Other)
+FORCEINLINE uint32 GetTypeHash(const FSideIndex &Other)
 {
 	return (uint32)Other.Value;
 }
-FORCEINLINE uint32 GetTypeHash(const FTriangleIndex& Other)
+FORCEINLINE uint32 GetTypeHash(const FTriangleIndex &Other)
 {
 	return (uint32)Other.Value;
 }
-FORCEINLINE uint32 GetTypeHash(const FPointIndex& Other)
+FORCEINLINE uint32 GetTypeHash(const FPointIndex &Other)
 {
 	return (uint32)Other.Value;
 }
@@ -295,8 +290,8 @@ public:
 		CALength = -1.0f;
 	}
 
-	FDelaunayTriangle(const FVector2D& PointA, const FVector2D& PointB, const FVector2D& PointC, 
-					  FPointIndex PointAIndex, FPointIndex PointBIndex, FPointIndex PointCIndex)
+	FDelaunayTriangle(const FVector2D &PointA, const FVector2D &PointB, const FVector2D &PointC,
+										FPointIndex PointAIndex, FPointIndex PointBIndex, FPointIndex PointCIndex)
 	{
 		A = PointA;
 		B = PointB;
@@ -344,7 +339,7 @@ public:
 	// All our generated delaunay coordinates.
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TArray<FVector2D> Coordinates;
-	
+
 	// The generated delaunay half-edges.
 	// If you access this using an edge ID as an index,
 	// you will get the opposite edge in the adjacent triangle,
@@ -370,7 +365,7 @@ public:
 	TArray<FTriangleIndex> HullNext;
 
 	// The indices of the generated delaunay triangles.
-	// If you access this array using an edge ID, you will get the point 
+	// If you access this array using an edge ID, you will get the point
 	// where that half-edge starts.
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TArray<FPointIndex> DelaunayTriangles;
@@ -381,7 +376,7 @@ public:
 		HullStart = FTriangleIndex();
 	}
 
-	FDelaunayMesh(const TArray<FVector2D>& GivenPoints)
+	FDelaunayMesh(const TArray<FVector2D> &GivenPoints)
 	{
 		HullStart = FTriangleIndex();
 		CreatePoints(GivenPoints);
@@ -389,12 +384,12 @@ public:
 
 public:
 	// Generates the actual triangulation
-	void CreatePoints(const TArray<FVector2D>& GivenPoints);
+	void CreatePoints(const TArray<FVector2D> &GivenPoints);
 	// Gets the area of the Delaunay hull.
-	float GetHullArea(float& OutErrorAmount) const;
+	float GetHullArea(float &OutErrorAmount) const;
 	// Returns the Kahan and Babuska of an array of floats.
 	// Adapted from the Delaunator HPP file.
-	float Sum(const TArray<float>& Area, float& OutErrorAmount) const;
+	float Sum(const TArray<float> &Area, float &OutErrorAmount) const;
 };
 
 /**
@@ -408,31 +403,31 @@ class DELAUNATOR_API UDelaunayHelper : public UBlueprintFunctionLibrary
 
 public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Procedural Generation|Delaunator")
-	static bool PointIsValid(const FPointIndex& Point);
+	static bool PointIsValid(const FPointIndex &Point);
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Procedural Generation|Delaunator")
-	static bool SideIsValid(const FSideIndex& Side);
+	static bool SideIsValid(const FSideIndex &Side);
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Procedural Generation|Delaunator")
-	static bool TriangleIsValid(const FTriangleIndex& Triangle);
+	static bool TriangleIsValid(const FTriangleIndex &Triangle);
 
 	// Generates a Delaunay triangulation from the given list of points.
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Procedural Generation|Delaunator")
-	static FDelaunayMesh CreateDelaunayTriangulation(const TArray<FVector2D>& Points);
+	static FDelaunayMesh CreateDelaunayTriangulation(const TArray<FVector2D> &Points);
 
 	// Gets the circumcenter of a triangle, useful for creating Voronoi maps.
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Procedural Generation|Delaunator|Triangles")
-	static FVector2D GetTriangleCircumcenter(const FDelaunayTriangle& Triangle);
+	static FVector2D GetTriangleCircumcenter(const FDelaunayTriangle &Triangle);
 	// Gets the area of a triangle.
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Procedural Generation|Delaunator|Triangles")
-	static float GetTriangleArea(const FDelaunayTriangle& Triangle);
+	static float GetTriangleArea(const FDelaunayTriangle &Triangle);
 	// Gets the Vector2D associated with a value from the DelaunayTriangles array.
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Procedural Generation|Delaunator|Triangles")
-	static FVector2D GetTrianglePoint(const FDelaunayMesh& Triangulation, FTriangleIndex TriangleIndex);
+	static FVector2D GetTrianglePoint(const FDelaunayMesh &Triangulation, FTriangleIndex TriangleIndex);
 
 	// Construct a FDelaunayTriangle struct from the given index.
 	// Note that the Triangle Index is the location inside the Triangulation's Triangle array --
 	// NOT the actual location itself, just the index.
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Procedural Generation|Delaunator|Triangles")
-	static FDelaunayTriangle ConvertTriangleIDToTriangle(const FDelaunayMesh& Triangulation, FTriangleIndex TriangleIndex);
+	static FDelaunayTriangle ConvertTriangleIDToTriangle(const FDelaunayMesh &Triangulation, FTriangleIndex TriangleIndex);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Procedural Generation|Delaunator|Triangles")
 	static FSideIndex TriangleIndexToEdge(FTriangleIndex TriangleIndex);
@@ -441,27 +436,26 @@ public:
 	static TArray<FSideIndex> EdgesOfTriangle(FTriangleIndex TriangleIndex);
 	// Given a Triangle ID, returns an array of point IDs
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Procedural Generation|Delaunator|Triangles")
-	static TArray<FPointIndex> PointsOfTriangle(const FDelaunayMesh& Triangulation, FTriangleIndex TriangleIndex);
+	static TArray<FPointIndex> PointsOfTriangle(const FDelaunayMesh &Triangulation, FTriangleIndex TriangleIndex);
 
 	// Gets a FVector2D given a half-edge.
 	// If the half-edge is invalid, returns (-1, -1).
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Procedural Generation|Delaunator|Half-Edge")
-	static FVector2D GetPointFromHalfEdge(const FDelaunayMesh& Triangulation, FSideIndex HalfEdge);
+	static FVector2D GetPointFromHalfEdge(const FDelaunayMesh &Triangulation, FSideIndex HalfEdge);
 	// Gets an index for a point given a half-edge. This index can then be used in the
 	// Triangulation.Coordinates array to look up the associated point.
 	// If the half-edge is invalid, returns -1.
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Procedural Generation|Delaunator|Half-Edge")
-	static FPointIndex GetPointIndexFromHalfEdge(const FDelaunayMesh& Triangulation, FSideIndex HalfEdge);
+	static FPointIndex GetPointIndexFromHalfEdge(const FDelaunayMesh &Triangulation, FSideIndex HalfEdge);
 	// Gets a triangle struct given a half-edge.
 	// If the half-edge is invalid, returns a triangle with all values set to invalid indices.
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Procedural Generation|Delaunator|Half-Edge")
-	static FDelaunayTriangle GetTriangleFromHalfEdge(const FDelaunayMesh& Triangulation, FSideIndex HalfEdge);
+	static FDelaunayTriangle GetTriangleFromHalfEdge(const FDelaunayMesh &Triangulation, FSideIndex HalfEdge);
 	// Gets an index for a triangle given a half-edge. This index can then be used in the
 	// Triangulation.Triangles array to look up the associated triangle.
 	// If the half-edge is invalid, returns an invalid triangle index.
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Procedural Generation|Delaunator|Half-Edge")
 	static FTriangleIndex GetTriangleIndexFromHalfEdge(FSideIndex HalfEdge);
-
 
 	// Given a Half-edge index, gets the next half-edge
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Procedural Generation|Delaunator|Half-Edge")
@@ -471,9 +465,9 @@ public:
 	static FSideIndex PreviousHalfEdge(FSideIndex HalfEdge);
 	// Given a Half-edge index, gets the opposite half-edge
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Procedural Generation|Delaunator|Half-Edge")
-	static FSideIndex OppositeHalfEdge(const FDelaunayMesh& Triangulation, FSideIndex HalfEdge);
+	static FSideIndex OppositeHalfEdge(const FDelaunayMesh &Triangulation, FSideIndex HalfEdge);
 
 	// Given a half-edge leading to a point, gets all other half-edges connected to that point
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Procedural Generation|Delaunator|Half-Edge")
-	static TArray<FSideIndex> EdgesFromIncomingEdge(const FDelaunayMesh& Triangulation, FSideIndex PointIndex);
+	static TArray<FSideIndex> EdgesFromIncomingEdge(const FDelaunayMesh &Triangulation, FSideIndex PointIndex);
 };

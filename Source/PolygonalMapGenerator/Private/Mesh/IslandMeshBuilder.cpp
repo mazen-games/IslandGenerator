@@ -16,7 +16,7 @@
 * limitations under the License.
 */
 
-#include "IslandMeshBuilder.h"
+#include "Mesh/IslandMeshBuilder.h"
 #include "DualMeshBuilder.h"
 
 UIslandMeshBuilder::UIslandMeshBuilder()
@@ -25,14 +25,14 @@ UIslandMeshBuilder::UIslandMeshBuilder()
 	BoundarySpacing = 1000;
 }
 
-void UIslandMeshBuilder::AddPoints_Implementation(UDualMeshBuilder* Builder, FRandomStream& Rng) const
+void UIslandMeshBuilder::AddPoints_Implementation(UDualMeshBuilder *Builder, FRandomStream &Rng) const
 {
 	// Do nothing
 }
 
-UTriangleDualMesh* UIslandMeshBuilder::GenerateDualMesh_Implementation(FRandomStream& Rng) const
+UTriangleDualMesh *UIslandMeshBuilder::GenerateDualMesh_Implementation(FRandomStream &Rng) const
 {
-	UDualMeshBuilder* builder = NewObject<UDualMeshBuilder>();
+	UDualMeshBuilder *builder = NewObject<UDualMeshBuilder>();
 	builder->Initialize(MapSize, BoundarySpacing);
 	AddPoints(builder, Rng);
 	return builder->Create();

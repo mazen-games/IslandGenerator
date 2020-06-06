@@ -10,7 +10,7 @@
 #include "IslandMapMesh.h"
 
 #include "Rivers/NamedIslandRivers.h"
-#include "RiverSplineComponent.h"
+#include "Rivers/RiverSplineComponent.h"
 
 #include "IslandMaker.generated.h"
 
@@ -84,7 +84,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TArray<FIslandTriangle> Triangles;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "River")
-	TArray<URiverSplineComponent*> RiverSplines;
+	TArray<URiverSplineComponent *> RiverSplines;
 
 protected:
 	virtual void OnRiverGenerationComplete_Implementation() override;

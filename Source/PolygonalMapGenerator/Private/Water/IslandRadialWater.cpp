@@ -16,7 +16,7 @@
 * limitations under the License.
 */
 
-#include "IslandRadialWater.h"
+#include "Water/IslandRadialWater.h"
 
 UIslandRadialWater::UIslandRadialWater()
 {
@@ -27,7 +27,7 @@ UIslandRadialWater::UIslandRadialWater()
 	LandScale = 1.25f;
 }
 
-bool UIslandRadialWater::IsPointLand_Implementation(FPointIndex Point, UTriangleDualMesh* Mesh, const FVector2D& HalfMeshSize, const FVector2D& Offset, const FIslandShape& Shape) const
+bool UIslandRadialWater::IsPointLand_Implementation(FPointIndex Point, UTriangleDualMesh *Mesh, const FVector2D &HalfMeshSize, const FVector2D &Offset, const FIslandShape &Shape) const
 {
 	FVector2D point = Mesh->r_pos(Point) - HalfMeshSize;
 	point.X = LandScale * 2.0f * (point.X / (HalfMeshSize.X * 2.0f));
@@ -41,9 +41,7 @@ bool UIslandRadialWater::IsPointLand_Implementation(FPointIndex Point, UTriangle
 	// The outer radius has to be larger than the length for this to be land
 	float outerRadius;
 
-	if ((FMath::Abs(angle - (AngleOffset * PI)) < MinAngle
-		 || FMath::Abs(angle - (AngleOffset * PI) + 2.0f * PI) < MinAngle
-		 || FMath::Abs(angle - (AngleOffset * PI) - 2.0f * PI) < MinAngle))
+	if ((FMath::Abs(angle - (AngleOffset * PI)) < MinAngle || FMath::Abs(angle - (AngleOffset * PI) + 2.0f * PI) < MinAngle || FMath::Abs(angle - (AngleOffset * PI) - 2.0f * PI) < MinAngle))
 	{
 		// Our angle is less than the minimum angle
 		innerRadius = 0.2f;

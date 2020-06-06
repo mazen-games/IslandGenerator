@@ -1,14 +1,14 @@
 // Copyright 2018 Jay Stevens
 
-#include "RiverSplineComponent.h"
-#include "NamedIslandRivers.h"
+#include "Rivers/RiverSplineComponent.h"
+#include "Rivers/NamedIslandRivers.h"
 
-USplineMeshComponent* URiverSplineComponent::CreateRiver(UNamedRiver* River, int32 SplineIndex, AActor* Parent, const UNamedIslandRivers* Rivers)
+USplineMeshComponent *URiverSplineComponent::CreateRiver(UNamedRiver *River, int32 SplineIndex, AActor *Parent, const UNamedIslandRivers *Rivers)
 {
 	// Store variables
-	UStaticMesh* riverMesh = Rivers->RiverMesh;
-	UMaterialInterface* riverMaterial = Rivers->RiverMaterial;
-	TMap<FName, UTexture*> textureMap = Rivers->RiverTextures;
+	UStaticMesh *riverMesh = Rivers->RiverMesh;
+	UMaterialInterface *riverMaterial = Rivers->RiverMaterial;
+	TMap<FName, UTexture *> textureMap = Rivers->RiverTextures;
 	float pointScale = Rivers->FlowScale;
 	float minWidth = Rivers->MinRiverWidth;
 
@@ -16,7 +16,7 @@ USplineMeshComponent* URiverSplineComponent::CreateRiver(UNamedRiver* River, int
 	FString objectName = GetName() + " Mesh ";
 	objectName.AppendInt(SplineIndex);
 	// Create the component and set starting parameters
-	USplineMeshComponent* riverSpline = NewObject<USplineMeshComponent>(Parent, FName(*objectName), RF_Transient);
+	USplineMeshComponent *riverSpline = NewObject<USplineMeshComponent>(Parent, FName(*objectName), RF_Transient);
 	riverSpline->SetMobility(EComponentMobility::Movable);
 	riverSpline->CreationMethod = EComponentCreationMethod::UserConstructionScript;
 	riverSpline->SetStaticMesh(riverMesh);
@@ -53,12 +53,11 @@ USplineMeshComponent* URiverSplineComponent::CreateRiver(UNamedRiver* River, int
 
 void URiverSplineComponent::CreateTangentWaterfalls()
 {
-
 }
 
-UMaterialInstanceDynamic* URiverSplineComponent::CreateMaterial(USplineMeshComponent* SplineMesh, UMaterialInterface* RiverMaterial, TMap<FName, UTexture*> TextureMap)
+UMaterialInstanceDynamic *URiverSplineComponent::CreateMaterial(USplineMeshComponent *SplineMesh, UMaterialInterface *RiverMaterial, TMap<FName, UTexture *> TextureMap)
 {
-	UMaterialInstanceDynamic* riverMat = SplineMesh->CreateDynamicMaterialInstance(0, RiverMaterial);
+	UMaterialInstanceDynamic *riverMat = SplineMesh->CreateDynamicMaterialInstance(0, RiverMaterial);
 	for (auto kvp : TextureMap)
 	{
 		riverMat->SetTextureParameterValue(kvp.Key, kvp.Value);
@@ -66,14 +65,13 @@ UMaterialInstanceDynamic* URiverSplineComponent::CreateMaterial(USplineMeshCompo
 	return riverMat;
 }
 
-void URiverSplineComponent::SetupMaterialParameters(USplineMeshComponent* SplineMesh)
+void URiverSplineComponent::SetupMaterialParameters(USplineMeshComponent *SplineMesh)
 {
-
 }
 
-TArray<USplineMeshComponent*> URiverSplineComponent::CreateRiverMeshes(UNamedRiver* River, AActor* Parent, const UNamedIslandRivers* Rivers)
+TArray<USplineMeshComponent *> URiverSplineComponent::CreateRiverMeshes(UNamedRiver *River, AActor *Parent, const UNamedIslandRivers *Rivers)
 {
-	TArray<USplineMeshComponent*> meshes;
+	TArray<USplineMeshComponent *> meshes;
 	if (River == NULL)
 	{
 		return meshes;

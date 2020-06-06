@@ -16,7 +16,7 @@
 * limitations under the License.
 */
 
-#include "IslandPoissonMeshBuilder.h"
+#include "Mesh/IslandPoissonMeshBuilder.h"
 #include "DualMeshBuilder.h"
 
 UIslandPoissonMeshBuilder::UIslandPoissonMeshBuilder()
@@ -26,7 +26,7 @@ UIslandPoissonMeshBuilder::UIslandPoissonMeshBuilder()
 	PoissonSamples = 30;
 }
 
-void UIslandPoissonMeshBuilder::AddPoints_Implementation(UDualMeshBuilder* Builder, FRandomStream& Rng) const
+void UIslandPoissonMeshBuilder::AddPoints_Implementation(UDualMeshBuilder *Builder, FRandomStream &Rng) const
 {
 	Builder->AddPoisson(Rng, MapSize - PoissonSize, PoissonSpacing, PoissonSamples);
 }
